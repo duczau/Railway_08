@@ -18,33 +18,34 @@ CREATE TABLE Position (
 
 DROP TABLE IF EXISTS `Account`;
 CREATE TABLE `Account` (
-	AcountID		TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	AcountID		INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Email			VARCHAR(100) NOT NULL UNIQUE KEY,
     Username		VARCHAR(100) NOT NULL UNIQUE KEY,
     FullName		VARCHAR(100) NOT NULL,
-    DepartmentID	TINYINT UNSIGNED NOT NULL,
-    PositionID		TINYINT UNSIGNED NOT NULL,
+    DepartmentID	TINYINT UNSIGNED,
+    PositionID		TINYINT UNSIGNED,
     CreateDate		DATE,
-    FOREIGN KEY(DepartmentID) REFERENCES Department (DepartmentID),
-    FOREIGN KEY(PositionID) REFERENCES Position (PositionID)
-);
+    FOREIGN KEY(DepartmentID) REFERENCES Department (DepartmentID) ON DELETE CASCADE,
+    FOREIGN KEY(PositionID) REFERENCES Position (PositionID) ON DELETE CASCADE
+); 
 
 DROP TABLE IF EXISTS `Group`;
 CREATE TABLE `Group` (
-	GroupID			TINYINT UNSIGNED AUTO_INCREMENT,
+	GroupID			TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     GroupName		VARCHAR(30) NOT NULL UNIQUE KEY,
-	CreatorID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
+	CreatorID		INT UNSIGNED,
     CreateDate		DATE,
-    PRIMARY KEY (GroupID)
+    FOREIGN KEY (CreatorID) REFERENCES `Account` (AcountID)
 );
 
 DROP TABLE IF EXISTS GroupAccount;
 CREATE TABLE GroupAccount (
 	GroupID			TINYINT UNSIGNED NOT NULL,
-    AcountID		TINYINT UNSIGNED NOT NULL,
+    AcountID		INT UNSIGNED NOT NULL,
     JoinDate		DATE,
-    FOREIGN KEY (GroupID) REFERENCES `Group` (GroupID),
-    FOREIGN KEY (AcountID) REFERENCES `Account` (AcountID)
+    FOREIGN KEY (GroupID) REFERENCES `Group` (GroupID) ON DELETE CASCADE,
+    FOREIGN KEY (AcountID) REFERENCES `Account` (AcountID) ON DELETE CASCADE,
+    PRIMARY KEY (GroupID,AcountID)
 );
 
 DROP TABLE IF EXISTS TypeQuestion;
@@ -65,7 +66,7 @@ CREATE TABLE Question (
     Content			VARCHAR(200) NOT NULL,
     CategoryID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
     TypeID			TINYINT UNSIGNED NOT NULL UNIQUE KEY,
-    CreatorID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
+    CreatorID		INT UNSIGNED NOT NULL UNIQUE KEY,
     CreatorDate		DATE NOT NULL,
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID),
     FOREIGN KEY (TypeID) REFERENCES TypeQuestion (TypeID),
@@ -78,7 +79,7 @@ CREATE TABLE Answer (
     Content			VARCHAR(200) NOT NULL,
     QuestionID		TINYINT UNSIGNED,
     isCorrect		BOOLEAN NOT NULL,
-    FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID)
+    FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS Exam;
@@ -88,7 +89,7 @@ CREATE TABLE Exam (
     Title			VARCHAR(200) NOT NULL,
     CategoryID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
     Duration		TINYINT UNSIGNED NOT NULL,
-    CreatorID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
+    CreatorID		INT UNSIGNED NOT NULL UNIQUE KEY,
     CreateDate		DATE,
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID),
     FOREIGN KEY (CreatorID) REFERENCES `Group` (CreatorID)
@@ -99,45 +100,46 @@ CREATE TABLE ExamQuestion (
 	ExamID			TINYINT UNSIGNED NOT NULL UNIQUE KEY,
     QuestionID		TINYINT UNSIGNED NOT NULL UNIQUE KEY,
     FOREIGN KEY (ExamID) REFERENCES Exam (ExamID),
-    FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID)
+    FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE,
+    PRIMARY KEY (ExamID,QuestionID)
 );
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- Add data ---------------------------
-INSERT INTO Department
-VALUES 		(1, 'Giám Đốc'), (2, 'MARKETING'), 
-			(3, 'SALES'), (4, 'Bảo vệ'), 
-            (5,'Thư kí'), (6, 'Nhân sự'), 
-            (7, 'Kỹ thuật'), (8, 'Tài chính'), 
-            (9, 'Phó Giám đốc'), (10, 'Bán hàng');
+INSERT INTO Department(departmentNAme)
+VALUES 		('Giám Đốc'), ('MARKETING'), 
+			('SALES'), ('Bảo vệ'), 
+            ('Thư kí'), ('Nhân sự'), 
+            ('Kỹ thuật'), ('Tài chính'), 
+            ('Phó Giám đốc'), ('Bán hàng');
 
-INSERT INTO Position
-VALUES (1, 'Dev'), (2, 'Test'), (3, 'Scrum Master'), (4, 'PM');
+INSERT INTO Position (PositionName)
+VALUES ('Dev'), ('Test'), ('Scrum Master'), ('PM');
 
-INSERT INTO `Account`
-VALUES 			(1,		'Giamdoc@gmail.com',				  'CEO',	  'Nguyễn Văn aA', 		1, 		1, 		'2020-01-02'), 
-                (2,		'Marketting@gmail.com',		   'Marketting',	  'Nguyễn Văn q', 		2, 		2, 		'2020-01-03'), 
-                (3,		'SALES@gmail.com',					'SALES',	  'Nguyễn Văn b', 		3, 		3, 		'2020-01-03'), 
-                (4, 	'Baove@gmail.com', 					'Baove',	  'Nguyễn Văn c', 		4, 		4, 		'2020-01-04'), 
-                (5, 	'Thuky@gmail.com', 					'Thuky',	  'Nguyễn Văn d', 		5, 		1, 		'2020-01-05'),
-                (6, 	'Nhansu@gmail.com', 			   'Nhansu',	  'Nguyễn Văn e', 		6, 		2, 		'2020-01-05'),
-                (7, 	'Kythuat@gmail.com', 			  'Kythuat',	  'Nguyễn Văn f', 		7, 		3, 		'2020-01-05'),
-                (8, 	'Taichinh@gmail.com', 			 'Taichinh',	  'Nguyễn Văn i', 		8, 		2, 		'2020-01-05'),
-                (9, 	'Phogiamdoc@gmail.com', 	   'Phogiamdoc',	  'Nguyễn Văn g', 		9, 		4, 		'2020-01-05'),
-                (10, 	'Banhang@gmail.com', 		      'Banhang',	  'Nguyễn Văn h', 	   10, 		1, 		'2020-01-05');
+INSERT INTO `Account`(Email,Username,FullName,DepartmentID,PositionID,CreateDate)
+VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	  'Nguyễn Văn aA', 		1, 		1, 		'2020-01-02'), 
+			(	'Marketting@gmail.com',		   'Marketting',	  'Nguyễn Văn q', 		2, 		2, 		'2020-01-03'), 
+			(	'SALES@gmail.com',					'SALES',	  'Nguyễn Văn b', 		3, 		3, 		'2020-01-03'), 
+			(	'Baove@gmail.com', 					'Baove',	  'Nguyễn Văn c', 		4, 		4, 		'2020-01-04'), 
+			(	'Thuky@gmail.com', 					'Thuky',	  'Nguyễn Văn d', 		5, 		1, 		'2020-01-05'),
+			(	'Nhansu@gmail.com', 			   'Nhansu',	  'Nguyễn Văn e', 		6, 		2, 		'2020-01-05'),
+			(	'Kythuat@gmail.com', 			  'Kythuat',	  'Nguyễn Văn f', 		7, 		3, 		'2020-01-05'),
+			(	'Taichinh@gmail.com', 			 'Taichinh',	  'Nguyễn Văn i', 		8, 		2, 		'2020-01-05'),
+			(	'Phogiamdoc@gmail.com', 	   'Phogiamdoc',	  'Nguyễn Văn g', 		9, 		4, 		'2020-01-05'),
+			( 	'Banhang@gmail.com', 		      'Banhang',	  'Nguyễn Văn h', 	   10, 		1, 		'2020-01-05');
 
-INSERT INTO `Group`
-VALUES 		(1,			'VTI_1', 		1, 	'2020-02-01'), 
-			(2, 		'VTI_2', 		2, 	'2020-02-22'), 
-            (3, 		'VTI_3', 		3, 	'2020-02-03'), 
-            (4,		   	'VTI_4', 		4, 	'2020-02-04'), 
-            (5,		  	'VTI_5', 		5, 	'2020-02-05'),
-            (6,		  	'VTI_6', 		6, 	'2020-02-06'),
-            (7,		  	'VTI_7', 		7, 	'2020-02-07'),
-            (8,		  	'VTI_8', 		8, 	'2020-02-05'),
-            (9,		   	'VTI_9', 		9, 	'2020-02-05'),
-            (10,	   'VTI_10', 	   10, 	'2020-02-05');
+INSERT INTO `Group`(GroupName,CreatorID,CreateDate)
+VALUES 		(		'VTI_1', 		1, 	'2020-02-01'), 
+			(		'VTI_2', 		2, 	'2020-02-22'), 
+            (		'VTI_3', 		3, 	'2020-02-03'), 
+            (	   	'VTI_4', 		4, 	'2020-02-04'), 
+            (	  	'VTI_5', 		5, 	'2020-02-05'),
+            (	  	'VTI_6', 		6, 	'2020-02-06'),
+            (	  	'VTI_7', 		7, 	'2020-02-07'),
+            (	  	'VTI_8', 		8, 	'2020-02-05'),
+            (	   	'VTI_9', 		9, 	'2020-02-05'),
+            (	   'VTI_10', 	   10, 	'2020-02-05');
 
 INSERT INTO GroupAccount
 VALUES 		(1,	 1, '2020-03-01'), 
@@ -152,7 +154,7 @@ VALUES 		(1,	 1, '2020-03-01'),
             (10, 10, '2020-03-04');
 
 INSERT INTO TypeQuestion
-VALUES (1, 'Essay'), (2, 'Multiple-Choice');
+VALUES (1,'Essay'), (2,'Multiple-Choice');
 
 INSERT INTO CategoryQuestion
 VALUES 		(1, 'category 1'), 	(2, 'category 2'), 
@@ -163,20 +165,20 @@ VALUES 		(1, 'category 1'), 	(2, 'category 2'),
 
 INSERT INTO Question
 VALUES 		(1, 	'question 1', 	1,	 1,	 1, '2020-12-01'), 
-			(2, 	'question 1', 	2,	 2,	 2, '2020-12-02'), 
-            (3, 	'question 1', 	3,	 3,	 3, '2020-12-03'), 
-            (4, 	'question 1', 	4,	 4,	 4, '2020-12-04'), 
-            (5, 	'question 1', 	5,	 5,	 5, '2020-12-05'),
-            (6, 	'question 1', 	6,	 6,	 6, '2020-12-05'),
-            (7, 	'question 1', 	7,	 7,	 7, '2020-12-05'),
-            (8, 	'question 1', 	8,	 8,	 8, '2020-12-05'),
-            (9, 	'question 1', 	9,	 9,	 9, '2020-12-05'),
+			(2, 	'question 2', 	2,	 2,	 2, '2020-12-02'), 
+            (3, 	'question 3', 	3,	 3,	 3, '2020-12-03'), 
+            (4, 	'question 4', 	4,	 4,	 4, '2020-12-04'), 
+            (5, 	'question 5', 	5,	 5,	 5, '2020-12-05'),
+            (6, 	'question 6', 	6,	 6,	 6, '2020-12-05'),
+            (7, 	'question 12', 	7,	 7,	 7, '2020-12-05'),
+            (8, 	'question 13', 	8,	 8,	 8, '2020-12-05'),
+            (9, 	'question 14', 	9,	 9,	 9, '2020-12-05'),
             (10, 	'question 10', 	10,	 10, 10, '2020-12-05');
 
 INSERT INTO Answer
 VALUES 		(1, 	'Answer 1', 	1, TRUE), 
-			(2, 	'Answer 2', 	2, TRUE), 
-            (3, 	'Answer 3', 	3, FALSE), 
+			(2, 	'Answer 2', 	1, TRUE), 
+            (3, 	'Answer 3', 	1, FALSE), 
             (4,		'Answer 4', 	4, FALSE), 
             (5,		'Answer 5', 	5, TRUE),
             (6,		'Answer 6', 	6, TRUE), 

@@ -1,5 +1,5 @@
 CREATE DATABASE Testing_System;
-USE	Testing_System;
+-- USE	Testing_System;
 
 CREATE TABLE Department (
 	DepartmentID	INT AUTO_INCREMENT PRIMARY KEY,
