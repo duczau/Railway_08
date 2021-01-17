@@ -65,8 +65,8 @@ CREATE TABLE Question (
 	QuestionID 		TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Content			VARCHAR(200) NOT NULL,
     CategoryID		TINYINT UNSIGNED NOT NULL,
-    TypeID			TINYINT UNSIGNED NOT NULL UNIQUE KEY,
-    CreatorID		INT UNSIGNED NOT NULL UNIQUE KEY,
+    TypeID			TINYINT UNSIGNED NOT NULL,
+    CreatorID		INT UNSIGNED NOT NULL,
     CreatorDate		DATE NOT NULL,
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion (CategoryID),
     FOREIGN KEY (TypeID) REFERENCES TypeQuestion (TypeID),
@@ -118,7 +118,7 @@ INSERT INTO Position (PositionName)
 VALUES ('Dev'), ('Test'), ('Scrum Master'), ('PM');
 
 INSERT INTO `Account`(Email,Username,FullName,DepartmentID,PositionID,CreateDate)
-VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	  'Nguyễn Văn aA', 		5, 		1, 		'2020-01-02'), 
+VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	  'Le Văn aA', 		5, 		1, 		'2020-01-02'), 
 			(	'Marketting@gmail.com',		   'Marketting',	  'Nguyễn Văn q', 		2, 		2, 		'2020-01-03'), 
 			(	'SALES@gmail.com',					'SALES',	  'Nguyễn Văn b', 		3, 		3, 		'2020-01-03'), 
 			(	'Baove@gmail.com', 					'Baove',	  'Nguyễn Văn c', 		7, 		4, 		'2020-01-04'), 
@@ -127,7 +127,7 @@ VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	  'Nguyễn Văn aA', 		5, 		1, 		'2
 			(	'Kythuat@gmail.com', 			  'Kythuat',	  'Nguyễn Văn f', 		7, 		3, 		'2020-01-05'),
 			(	'Taichinh@gmail.com', 			 'Taichinh',	  'Nguyễn Văn i', 		2, 		2, 		'2020-01-05'),
 			(	'Phogiamdoc@gmail.com', 	   'Phogiamdoc',	  'Nguyễn Văn g', 		2, 		4, 		'2020-01-05'),
-			( 	'Banhang@gmail.com', 		      'Banhang',	  'Nguyễn Văn h', 	   10, 		1, 		'2020-01-05');
+			( 	'Banhang@gmail.com', 		      'Banhang',	  'Nguyễn Văn h',  	   7, 		1, 		'2020-01-05');
 
 INSERT INTO `Group`(GroupName,CreatorID,CreateDate)
 VALUES 		(		'VTI_1', 		1, 	'2020-02-01'), 
@@ -146,10 +146,10 @@ VALUES 		(1,	 1, '2020-03-01'),
 			(2,	 2, '2020-03-22'), 
             (3,	 3, '2020-03-03'), 
             (4,	 4, '2020-03-04'), 
-            (1,	 5, '2020-03-05'),
+            (1,	 2, '2020-03-05'),
             (6,	 6, '2020-03-04'),
             (7,	 7, '2020-03-04'),
-            (4,	 8, '2020-03-04'),
+            (4,	 2, '2020-03-04'),
             (1,	 9, '2020-03-04'),
             (10, 10, '2020-03-04');
 
@@ -164,16 +164,16 @@ VALUES 		(1, 'category 1'), 	(2, 'category 2'),
 			(9, 'category 9'),		(10, 'category 10'); 
 
 INSERT INTO Question
-VALUES 		(1, 	'question 1', 	1,	 1,	 1, '2020-12-01'), 
+VALUES 		(1, 	'question 1 21', 	1,	 1,	 7, '2020-12-01'), 
 			(2, 	'question 2', 	2,	 2,	 2, '2020-12-02'), 
-            (3, 	'question 3', 	3,	 3,	 3, '2020-12-03'), 
-            (4, 	'question 4', 	1,	 4,	 4, '2020-12-04'), 
-            (5, 	'question 5', 	5,	 5,	 5, '2020-12-05'),
-            (6, 	'question 6', 	6,	 6,	 6, '2020-12-05'),
-            (7, 	'question 12', 	1,	 7,	 7, '2020-12-05'),
-            (8, 	'question 13', 	8,	 8,	 8, '2020-12-05'),
-            (9, 	'question 14', 	3,	 9,	 9, '2020-12-05'),
-            (10, 	'question 10', 	10,	 10, 10, '2020-12-05');
+            (3, 	'question 3', 	3,	 1,	 7, '2020-12-03'), 
+            (4, 	'question 414 6 84 849', 	1,	 1,	 4, '2020-12-04'), 
+            (5, 	'question 51 5665', 	5,	 1,	 5, '2020-12-05'),
+            (6, 	'question 6', 	6,	 2,	 6, '2020-12-05'),
+            (7, 	'question 12', 	1,	 1,	 7, '2020-12-05'),
+            (8, 	'question 13', 	8,	 2,	 8, '2020-12-05'),
+            (9, 	'question 14', 	3,	 2,	 9, '2020-12-05'),
+            (10, 	'question 10', 	10,	 1, 10, '2020-12-05');
 
 INSERT INTO Answer
 VALUES 		(1, 	'Answer 1', 	1, TRUE), 
