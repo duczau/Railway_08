@@ -21,6 +21,7 @@ CREATE TABLE `Account` (
 	AcountID		INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Email			VARCHAR(100) NOT NULL UNIQUE KEY,
     Username		VARCHAR(100) NOT NULL UNIQUE KEY,
+	Gender			VARCHAR(50) DEFAULT 'M',	
     FullName		VARCHAR(100) NOT NULL,
     DepartmentID	TINYINT UNSIGNED,
     PositionID		TINYINT UNSIGNED,
@@ -97,7 +98,7 @@ CREATE TABLE Exam (
 
 DROP TABLE IF EXISTS ExamQuestion;
 CREATE TABLE ExamQuestion (
-	ExamID			TINYINT UNSIGNED NOT NULL UNIQUE KEY,
+	ExamID			TINYINT UNSIGNED NOT NULL,
     QuestionID		TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (ExamID) REFERENCES Exam (ExamID),
     FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE,
@@ -112,22 +113,22 @@ VALUES 		('Giám Đốc'), ('MARKETING'),
 			('SALES'), ('Bảo vệ'), 
             ('Thư kí'), ('Nhân sự'), 
             ('Kỹ thuật'), ('Tài chính'), 
-            ('Phó Giám đốc'), ('Bán hàng');
+            ('Phó Giám đốc'), ('Waiting Room');
 
 INSERT INTO Position (PositionName)
 VALUES ('Dev'), ('Test'), ('Scrum Master'), ('PM');
 
-INSERT INTO `Account`(Email,Username,FullName,DepartmentID,PositionID,CreateDate)
-VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	  'Le Văn aA', 		5, 		1, 		'2020-01-02'), 
-			(	'Marketting@gmail.com',		   'Marketting',	  'Nguyễn Văn q', 		2, 		2, 		'2020-01-03'), 
-			(	'SALES@gmail.com',					'SALES',	  'Nguyễn Văn b', 		3, 		3, 		'2020-01-03'), 
-			(	'Baove@gmail.com', 					'Baove',	  'Nguyễn Văn c', 		7, 		4, 		'2020-01-04'), 
-			(	'Thuky@gmail.com', 					'Thuky',	  'Nguyễn Văn d', 		5, 		1, 		'2020-01-05'),
-			(	'Nhansu@gmail.com', 			   'Nhansu',	  'Nguyễn Văn e', 		1, 		2, 		'2020-01-05'),
-			(	'Kythuat@gmail.com', 			  'Kythuat',	  'Nguyễn Văn f', 		7, 		3, 		'2020-01-05'),
-			(	'Taichinh@gmail.com', 			 'Taichinh',	  'Nguyễn Văn i', 		2, 		2, 		'2020-01-05'),
-			(	'Phogiamdoc@gmail.com', 	   'Phogiamdoc',	  'Nguyễn Văn g', 		2, 		4, 		'2020-01-05'),
-			( 	'Banhang@gmail.com', 		      'Banhang',	  'Nguyễn Văn h',  	   7, 		1, 		'2020-01-05');
+INSERT INTO `Account`(Email,Username,Gender,FullName,DepartmentID,PositionID,CreateDate)
+VALUES 		(	'Giamdoc@gmail.com',				  'CEO',	'M',  'Le Văn aA', 			5, 		1, 		'2020-01-02'), 
+			(	'Marketting@gmail.com',		   'Marketting',	'F',  'Nguyễn Văn q', 		2, 		2, 		'2020-01-03'), 
+			(	'SALES@mail.com',					'SALES',	'F',  'Nguyễn Văn b', 		3, 		3, 		'2020-01-03'), 
+			(	'Baove@gmail.com', 					'Baove',	'M',  'Nguyễn Văn c', 		7, 		4, 		'2020-01-04'), 
+			(	'Thuky@mail.com', 					'Thuky',	'F',  'Nguyễn Văn d', 		5, 		1, 		'2020-01-05'),
+			(	'Nhansu@gmail.com', 			   'Nhansu',	'U',  'Nguyễn Văn e', 		1, 		2, 		'2020-01-05'),
+			(	'Kythuat@mail.com', 			  'Kythuat',	'M',  'Nguyễn Văn f', 		7, 		3, 		'2020-01-05'),
+			(	'Taichinh@mail.com', 			 'Taichinh',	'F',  'Nguyễn Văn i', 		2, 		2, 		'2020-01-05'),
+			(	'Phogiamdoc@gmail.com', 	   'Phogiamdoc',	'M',  'Nguyễn Văn g', 		2, 		4, 		'2020-01-05'),
+			( 	'Banhang@gmail.com', 		      'Banhang',	'U',  'Nguyễn Văn h',  	    7, 		1, 		'2020-01-05');
 
 INSERT INTO `Group`(GroupName,CreatorID,CreateDate)
 VALUES 		(		'VTI_1', 		1, 	'2020-02-01'), 
@@ -166,13 +167,13 @@ VALUES 		(1, 'category 1'), 	(2, 'category 2'),
 INSERT INTO Question
 VALUES 		(1, 	'question 1 21', 	1,	 1,	 7, '2020-12-01'), 
 			(2, 	'question 2', 	2,	 2,	 2, '2020-12-02'), 
-            (3, 	'question 3', 	3,	 1,	 7, '2020-12-03'), 
+            (3, 	'question 3', 	3,	 1,	 7, '2020-10-03'), 
             (4, 	'question 414 6 84 849', 	1,	 1,	 4, '2020-12-04'), 
             (5, 	'question 51 5665', 	5,	 1,	 5, '2020-12-05'),
             (6, 	'question 6', 	6,	 2,	 6, '2020-12-05'),
-            (7, 	'question 12', 	1,	 1,	 7, '2020-12-05'),
+            (7, 	'question 12', 	1,	 1,	 7, '2020-10-05'),
             (8, 	'question 13', 	8,	 2,	 8, '2020-12-05'),
-            (9, 	'question 14', 	3,	 2,	 9, '2020-12-05'),
+            (9, 	'question 14', 	3,	 2,	 9, '2020-10-05'),
             (10, 	'question 10', 	10,	 1, 10, '2020-12-05');
 
 INSERT INTO Answer
@@ -188,21 +189,21 @@ VALUES 		(1, 	'Answer 1', 	1, TRUE),
             (10, 	'Answer 10',	10, FALSE); 
 
 INSERT INTO Exam
-VALUES 		(1, 	'A1', 	'Exam 1', 	1, 60, 	1, '2020-10-02'), 
+VALUES 		(1, 	'A1', 	'Exam 1', 	1, 60, 	1, '2010-10-02'), 
 			(2, 	'A1',	'Exam 2', 	2, 120, 2, '2020-10-03'), 
             (3, 	'A1', 	'Exam 3', 	3, 60, 	3, '2020-10-04'), 
             (4, 	'A1', 	'Exam 4', 	4, 60, 	4, '2020-10-05'), 
-            (5,		'A1', 	'Exam 5', 	5, 120, 5, '2020-10-06'),
+            (5,		'A1', 	'Exam 5', 	5, 120, 5, '2015-10-06'),
             (6, 	'A1', 	'Exam 6', 	6, 60, 	6, '2020-10-04'), 
-            (7, 	'A1', 	'Exam 7', 	7, 180, 7, '2020-10-04'), 
+            (7, 	'A1', 	'Exam 7', 	7, 180, 7, '2010-10-04'), 
             (8, 	'A1', 	'Exam 8', 	8, 60, 	8, '2020-10-04'), 
             (9, 	'A1', 	'Exam 9', 	9, 60, 	9, '2020-10-04'), 
             (10, 	'A1', 	'Exam 10', 	10, 60, 10, '2020-10-04'); 
 
 INSERT INTO ExamQuestion
 VALUES 		(1, 1), (2, 2), 
-			(3, 3), (4, 4), 
+			(1, 3), (4, 4), 
             (5,	5), (6, 5),
-			(7, 1), (8, 8), 
+			(7, 1), (1, 8), 
 			(9, 5), (10, 1); 
 
