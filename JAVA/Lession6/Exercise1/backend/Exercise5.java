@@ -9,13 +9,13 @@ public class Exercise5 {
 	public void question1_2() {
 		Scanner scanner = new Scanner(System.in);
 		QLCB qlcb = new QLCB();
-		while (true) {								//	===> vị trí đúng
-		System.out.println("Mời bạn nhập vào chức năng muốn dùng\n" + "1.Thêm mới cán bộ\n" + "2.Tìm kiếm theo họ tên\n"
-				+ "3.Hiện thị thông tin về danh sách các cán bộ.\n" + "4.Nhập vào tên của cán bộ và delete cán bộ đó\n"
-				+ "5.Thoát khỏi chương trình.");
-		System.out.print("Mời bạn chọn chức năng: ");
+		while (true) { // ===> vị trí đúng
+			System.out.println("Mời bạn nhập vào chức năng muốn dùng\n" + "1.Thêm mới cán bộ\n"
+					+ "2.Tìm kiếm theo họ tên\n" + "3.Hiện thị thông tin về danh sách các cán bộ.\n"
+					+ "4.Nhập vào tên của cán bộ và delete cán bộ đó\n" + "5.Thoát khỏi chương trình.");
+			System.out.print("Mời bạn chọn chức năng: ");
 
-		int choose = scanner.nextInt();
+			int choose = scanner.nextInt();
 //		while (true) { 									===> dòng while để sai vị trí
 			switch (choose) {
 			case 1:
